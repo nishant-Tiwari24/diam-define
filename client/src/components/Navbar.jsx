@@ -55,7 +55,7 @@ const Navbar = () => {
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar px-6">
       <h1 onClick={toHome} className="w-[224px] h-[38px] text-4xl text-gradient font-extrabold">
-        UPICryptoConnect
+        De-Fine
       </h1>
 
       <ul className="list-none sm:flex hidden justify-end items-center flex-1 space-x-8">
