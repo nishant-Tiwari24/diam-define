@@ -3,7 +3,7 @@ import api from '../utils/api';
 import { axis, hdfc, icici, pnb, sbi } from '../assets';
 import { isValidChecksumAddress } from 'ethereumjs-util';
 import axios from 'axios';
-
+import Cookies from "js-cookie"
 
 const banks = [
   { name: 'State Bank of India', description: 'State Bank of India is the largest public sector bank in India.', logo: sbi },
@@ -61,7 +61,8 @@ const Bank = () => {
         { upi:upiId, metamask:metamaskId , bid:bid}
       );
       console.log(links);
-      await axios.post('http://localhost:5550/create-keypair')
+      const a = Cookies.get("userEmail");
+      await axios.post('http://localhost:5550/create-keypair', {email: a})
       .then((res)=>{
         console.log(res);
         localStorage.setItem("diamPublic",res.data.publicKey);

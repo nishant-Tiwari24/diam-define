@@ -11,8 +11,9 @@ import payRoutes from './routes/paymentRoute.js';
 import { config } from 'dotenv';
 import bodyParser from 'body-parser';
 
-import { Networks, Asset,Keypair, Operation, TransactionBuilder } from 'diamante-base';
+import { Networks, Asset, Keypair, Operation, TransactionBuilder } from 'diamante-base';
 import { Horizon } from 'diamante-sdk-js';
+import User from './models/User.js';
 
 
 config({
@@ -34,10 +35,25 @@ app.use('/loan', FLRoutes);
 app.use('/pay',payRoutes);
 
 // diamanate routes
-app.post('/create-keypair', (req, res) => {
+app.post('/create-keypair', async(req, res) => {
   try {
+      const {email} = req.body;
       console.log('Received request to create keypair');
       const keypair = Keypair.random();
+      console.log(keypair);
+      const user = await User.findOne({email});
+      if(!user){
+        res.json({
+            message: "User not found."
+        })
+      }
+
+      await user.updateOne({
+        $set:{
+            diamPublic: keypair.publicKey(),
+            diamPrivate: keypair.secret()
+        }
+      })
       console.log('Keypair created:', keypair.publicKey(), keypair.secret());
       res.json({
           publicKey: keypair.publicKey(),

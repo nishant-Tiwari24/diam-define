@@ -24,6 +24,7 @@ const UserProfile = () => {
   const [address, setAddress] = useState("..");
   const [status, setStatus] = useState("..");
   const [kyc, setKyc] = useState(false);
+  const [diamPublic, setDiamPublic] = useState("......");
 
   const [box, setBox] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -48,6 +49,8 @@ const UserProfile = () => {
         setUpiId(details.upiId || "......");
         setMetamaskId(details.metamaskId || "......");
         setKyc(details.kyc);
+        setDiamPublic(details.diamPublic || "......");
+        localStorage.setItem("diamPublic", details.diamPublic);
       };
       USER();
     } catch (error) {
@@ -209,7 +212,7 @@ const UserProfile = () => {
                 DIAM:{" "}
               </label>
               <div className="flex text-stone-400">
-                <p className="w-full font-semibold">{localStorage.getItem("diamPublic").slice(0,4)}....{localStorage.getItem("diamPublic").slice(50,56)}</p>
+                <p className="w-full font-semibold truncate">{diamPublic}</p>
                 {copyu ? (
                   <IoIosCheckmarkCircle className="text-icon text-xl" />
                 ) : (
